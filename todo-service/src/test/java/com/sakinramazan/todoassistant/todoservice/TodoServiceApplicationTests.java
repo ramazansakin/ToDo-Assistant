@@ -1,13 +1,13 @@
-package com.sakinramazan.todoassistant.todoservice;
+//package com.sakinramazan.todoassistant.todoservice;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class TodoServiceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class TodoServiceApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}
