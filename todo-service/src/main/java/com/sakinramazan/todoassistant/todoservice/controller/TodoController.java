@@ -14,29 +14,34 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @GetMapping(value = "/all")
+    @GetMapping("/all")
     public List<Todo> getAllTodos() {
         return todoService.getAll();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public Todo getTodo(@PathVariable Integer id) {
         return todoService.getOne(id);
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping("/create")
     public void saveTodo(@RequestBody Todo todo) {
         todoService.addOne(todo);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping("/update")
     public Todo updateTodo(@RequestBody Todo todo) {
         return todoService.updateOne(todo);
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping("/delete")
     public boolean deleteTodo(@RequestParam Integer id) {
         return todoService.deleteOne(id);
+    }
+
+    @GetMapping("/get-todo/{headline}")
+    public Todo getByHeadline(@RequestParam String headline) {
+        return todoService.getByHeadline(headline);
     }
 
 }

@@ -15,4 +15,6 @@ public interface TodoService {
     Todo updateOne(@RequestBody Todo todo);
 
     boolean deleteOne(Integer id);
+
+    Todo getByHeadline(String headline);
 }

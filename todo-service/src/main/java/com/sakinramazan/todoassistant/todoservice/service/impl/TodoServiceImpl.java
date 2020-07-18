@@ -45,4 +45,9 @@ public class TodoServiceImpl implements TodoService {
         }
         return false;
     }
+
+    @Override
+    public Todo getByHeadline(String headline) {
+        return todoRepository.getByHeadline(headline);
+    }
 }
