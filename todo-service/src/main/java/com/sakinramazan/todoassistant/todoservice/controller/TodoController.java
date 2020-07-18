@@ -40,7 +40,7 @@ public class TodoController {
     }
 
     @GetMapping("/get-todo/{headline}")
-    public Todo getByHeadline(@RequestParam String headline) {
+    public Todo getByHeadline(@PathVariable String headline) {
         return todoService.getByHeadline(headline);
     }
 
