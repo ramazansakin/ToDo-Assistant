@@ -1,6 +1,9 @@
 package com.sakinramazan.userservice.controller;
 
 import com.sakinramazan.userservice.entity.User;
+import com.sakinramazan.userservice.feign.client.ToDoServiceProxy;
+import com.sakinramazan.userservice.feign.client.UserClient;
+import com.sakinramazan.userservice.feign.dto.UserResponse;
 import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,10 @@ public class UserController {
     private final UserService userService;
 
     private final RestTemplate restTemplate;
+
+    private final UserClient client;
+
+    private final ToDoServiceProxy todoService;
 
     @GetMapping("/all")
     public List<User> getAll() {
@@ -58,10 +65,21 @@ public class UserController {
         return result.getBody();
     }
 
+    @GetMapping("/feign-client/users")
+    public List<UserResponse> getAllUser() {
+        return client.getUsers();
+    }
+
     private HttpEntity<String> getHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         return entity;
     }
+
+    @GetMapping("/feign-client/todo-service/{headline}")
+    public ToDoModel getTodoByHeadline(@PathVariable String headline) {
+        return todoService.getByHeadline(headline);
+    }
+
 }
