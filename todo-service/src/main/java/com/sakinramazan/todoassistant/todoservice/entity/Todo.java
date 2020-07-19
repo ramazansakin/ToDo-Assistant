@@ -24,7 +24,4 @@ public class Todo implements Serializable {
 
     private String details;
 
-    // Transient tells "do not persist this field"
-//    @Transient
-//    private List<Address> addresses;
 }

@@ -3,6 +3,8 @@ package com.sakinramazan.todoassistant.todoservice.controller;
 import com.sakinramazan.todoassistant.todoservice.entity.Todo;
 import com.sakinramazan.todoassistant.todoservice.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +12,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/todos")
+@Slf4j
 public class TodoController {
+
+    @Value("${server.port}")
+    private int port;
 
     private final TodoService todoService;
 
     @GetMapping("/all")
     public List<Todo> getAllTodos() {
+        log.info("All ToDo response via server port : " + port);
         return todoService.getAll();
     }
 
