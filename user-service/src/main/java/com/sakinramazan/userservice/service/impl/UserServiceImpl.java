@@ -27,20 +27,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addOne(User address) {
-        return userRepository.save(address);
+    public User addOne(User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public User updateOne(User address) {
-        User one = getOne(address.getId());
-        if (one != null)
-            return userRepository.save(one);
+    public User updateOne(User user) {
+        if (user != null && user.getId() != null) {
+            User one = getOne(user.getId());
+            if (one != null)
+                return userRepository.save(one);
+        }
         return null;
     }
 
     @Override
     public boolean deleteOne(Integer id) {
+        if (id != null) {
+            User one = getOne(id);
+            if (one != null) {
+                userRepository.save(one);
+                return true;
+            }
+        }
         return false;
     }
 }

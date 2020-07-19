@@ -10,7 +10,7 @@ public interface AddressService {
 
     Address getOne(Integer id);
 
-    void addOne(@RequestBody Address address);
+    Address addOne(@RequestBody Address address);
 
     Address updateOne(@RequestBody Address address);
 
