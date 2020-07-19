@@ -33,15 +33,22 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo updateOne(Todo todo) {
-        return todoRepository.save(todo);
+        if (todo != null && todo.getId() != null) {
+            Todo one = getOne(todo.getId());
+            if (one != null)
+                return todoRepository.save(todo);
+        }
+        return null;
     }
 
     @Override
     public boolean deleteOne(Integer id) {
-        Todo one = getOne(id);
-        if (one != null) {
-            todoRepository.delete(one);
-            return true;
+        if (id != null) {
+            Todo one = getOne(id);
+            if (one != null) {
+                todoRepository.delete(one);
+                return true;
+            }
         }
         return false;
     }
