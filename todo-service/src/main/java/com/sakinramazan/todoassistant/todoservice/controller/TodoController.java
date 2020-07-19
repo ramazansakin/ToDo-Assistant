@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/todos")
 @Slf4j
+@CrossOrigin("*")
 public class TodoController {
 
     @Value("${server.port}")
