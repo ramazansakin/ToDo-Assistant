@@ -1,5 +1,6 @@
 package com.sakinramazan.todoassistant.todoservice.interceptor;
 
+import com.sakinramazan.todoassistant.todoservice.exception.InvalidFieldException;
 import com.sakinramazan.todoassistant.todoservice.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,13 @@ public class GenericExceptionHandler {
         Map<String, String> response = new HashMap<>();
         response.put("Caused by", exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidFieldException.class)
+    public ResponseEntity<Map> exception(InvalidFieldException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("Caused by", exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // If not found specific exception, use this
