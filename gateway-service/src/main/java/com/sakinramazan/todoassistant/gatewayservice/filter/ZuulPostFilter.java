@@ -29,7 +29,7 @@ public class ZuulPostFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        // Internal server errors handling
+        // We can handle some generic errors here
         try {
             HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
             log.info("PostFilter: " + String.format("response's content type is %s", response.getStatus()));
