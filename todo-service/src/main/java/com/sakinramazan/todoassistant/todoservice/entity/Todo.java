@@ -20,7 +20,7 @@ public class Todo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "{validation.messages.airport.name}")
+    @NotNull(message = "{validation.messages.todo.headline}")
     private String headline;
 
     private String details;
