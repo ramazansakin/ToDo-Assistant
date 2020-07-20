@@ -57,4 +57,9 @@ public class TodoServiceImpl implements TodoService {
     public Todo getByHeadline(String headline) {
         return todoRepository.getByHeadline(headline);
     }
+
+    @Override
+    public List<Todo> getAllToDosByUser(Integer id) {
+        return todoRepository.getAllByUserId(id);
+    }
 }

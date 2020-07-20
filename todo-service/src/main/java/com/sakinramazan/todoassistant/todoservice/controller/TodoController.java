@@ -52,4 +52,8 @@ public class TodoController {
         return todoService.getByHeadline(headline);
     }
 
+    @GetMapping("/get-todos-by-user/{id}")
+    public List<Todo> getAllToDosByUser(@PathVariable Integer id) {
+        return todoService.getAllToDosByUser(id);
+    }
 }

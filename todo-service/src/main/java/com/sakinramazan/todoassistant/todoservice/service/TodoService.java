@@ -1,6 +1,7 @@
 package com.sakinramazan.todoassistant.todoservice.service;
 
 import com.sakinramazan.todoassistant.todoservice.entity.Todo;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface TodoService {
     boolean deleteOne(Integer id);
 
     Todo getByHeadline(String headline);
+
+    List<Todo> getAllToDosByUser(@PathVariable Integer id);
 }
