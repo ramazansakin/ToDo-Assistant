@@ -1,4 +1,4 @@
-package com.sakinramazan.todoassistant.todoservice.entity;
+package com.sakinramazan.userservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
@@ -25,10 +25,9 @@ public class Todo implements Serializable {
 
     private String details;
 
-    @NotNull(message = "airport can not be null")
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "airport_company_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
 }

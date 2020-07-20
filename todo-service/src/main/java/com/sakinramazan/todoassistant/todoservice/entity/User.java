@@ -1,4 +1,4 @@
-package com.sakinramazan.userservice.entity;
+package com.sakinramazan.todoassistant.todoservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -39,7 +39,7 @@ public class User implements Serializable {
     private Address address;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "airportCompany", cascade = CascadeType.MERGE)
     private List<Todo> todos;
 
 }

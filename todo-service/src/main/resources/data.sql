@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS todo;
 CREATE TABLE todo(
     id INT AUTO_INCREMENT  PRIMARY KEY,
     headline VARCHAR(50) NOT NULL,
-    details VARCHAR(250)
+    details VARCHAR(250),
+    user_id INT
 );
 
 INSERT INTO todo (headline, details) VALUES ('Refactor', 'I need to make a refactor on my todo-app'),
