@@ -24,6 +24,6 @@ public class Todo implements Serializable {
 
     private String details;
 
-    private Integer user_id;
+    private Integer userId;
 
 }
