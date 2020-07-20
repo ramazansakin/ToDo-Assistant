@@ -1,6 +1,7 @@
 package com.sakinramazan.userservice.service;
 
 import com.sakinramazan.userservice.entity.User;
+import com.sakinramazan.userservice.model.ToDoModel;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface UserService {
     User updateOne(@RequestBody User address);
 
     boolean deleteOne(Integer id);
+
+    ToDoModel getTodoByHeadline(String headline);
 }

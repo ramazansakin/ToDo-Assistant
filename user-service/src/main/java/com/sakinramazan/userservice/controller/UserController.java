@@ -1,7 +1,6 @@
 package com.sakinramazan.userservice.controller;
 
 import com.sakinramazan.userservice.entity.User;
-import com.sakinramazan.userservice.feign.client.ToDoServiceProxy;
 import com.sakinramazan.userservice.feign.client.UserClient;
 import com.sakinramazan.userservice.feign.dto.UserResponse;
 import com.sakinramazan.userservice.model.ToDoModel;
@@ -26,8 +25,6 @@ public class UserController {
     private final RestTemplate restTemplate;
 
     private final UserClient client;
-
-    private final ToDoServiceProxy todoService;
 
     @GetMapping("/all")
     public List<User> getAll() {
@@ -80,7 +77,7 @@ public class UserController {
 
     @GetMapping("/feign-client/todo-service/{headline}")
     public ToDoModel getTodoByHeadline(@PathVariable String headline) {
-        return todoService.getByHeadline(headline);
+        return userService.getTodoByHeadline(headline);
     }
 
 }

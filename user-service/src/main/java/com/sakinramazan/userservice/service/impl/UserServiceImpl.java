@@ -1,6 +1,9 @@
 package com.sakinramazan.userservice.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.sakinramazan.userservice.entity.User;
+import com.sakinramazan.userservice.feign.client.ToDoServiceProxy;
+import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.repository.UserRepository;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final ToDoServiceProxy todoService;
 
     @Override
     public List<User> getAll() {
@@ -51,5 +56,19 @@ public class UserServiceImpl implements UserService {
             }
         }
         return false;
+    }
+
+    @HystrixCommand(fallbackMethod = "getTodoByHeadline_Fallback")
+    @Override
+    public ToDoModel getTodoByHeadline(String headline) {
+        return todoService.getByHeadline(headline);
+    }
+
+    public ToDoModel getTodoByHeadline_Fallback(String headline) {
+        ToDoModel defaultModel = new ToDoModel();
+        defaultModel.setHeadline("default Headline");
+        defaultModel.setDetails("Default Details");
+
+        return defaultModel;
     }
 }
