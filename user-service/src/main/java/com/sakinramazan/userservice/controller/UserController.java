@@ -1,5 +1,6 @@
 package com.sakinramazan.userservice.controller;
 
+import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
 import com.sakinramazan.userservice.feign.client.UserClient;
 import com.sakinramazan.userservice.feign.dto.UserResponse;
@@ -76,7 +77,7 @@ public class UserController {
     }
 
     @GetMapping("/feign-client/todo-service/{headline}")
-    public ToDoModel getTodoByHeadline(@PathVariable String headline) {
+    public Todo getTodoByHeadline(@PathVariable String headline) {
         return userService.getTodoByHeadline(headline);
     }
 
