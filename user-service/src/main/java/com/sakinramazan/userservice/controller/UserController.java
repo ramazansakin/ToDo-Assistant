@@ -55,8 +55,8 @@ public class UserController {
 
     // RestTemplate api call usage sample
     // TODO : edit and refactor api
-    @GetMapping("/todos/{user_id}")
-    public List<ToDoModel> invokePaymentService(@PathVariable Integer user_id) {
+    @GetMapping("/all-todos")
+    public List<ToDoModel> invokePaymentService() {
         final String uri = "http://todo-service/api/todos/all";
 
         ResponseEntity<List<ToDoModel>> result = restTemplate.exchange(uri, HttpMethod.GET, getHeader(),
