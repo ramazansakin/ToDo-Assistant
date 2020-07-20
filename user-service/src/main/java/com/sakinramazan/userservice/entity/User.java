@@ -1,11 +1,11 @@
 package com.sakinramazan.userservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -29,6 +29,7 @@ public class User implements Serializable {
     private String username;
 
     @NotNull(message = "{validation.messages.users.email}")
+    @Email(message = "{validation.messages.users.valid-email}")
     private String email;
 
     @NotNull(message = "{validation.messages.users.password}")
