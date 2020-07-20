@@ -7,8 +7,10 @@ import com.sakinramazan.userservice.feign.dto.UserResponse;
 import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,30 +29,28 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable Integer id) {
+    public User get(@PathVariable @Range(min = 1, max = 50) Integer id) {
         return userService.getOne(id);
     }
 
     @PostMapping("/create")
-    public User save(@RequestBody User user) {
+    public User save(@RequestBody @Valid User user) {
         return userService.addOne(user);
     }
 
     @PutMapping("/update")
-    public User update(@RequestBody User user) {
+    public User update(@RequestBody @Valid User user) {
         return userService.updateOne(user);
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam Integer id) {
+    public boolean delete(@RequestParam @Range(min = 1, max = 50) Integer id) {
         return userService.deleteOne(id);
     }
 
-
     // RestTemplate api call usage sample
-    // TODO : edit and refactor api
     @GetMapping("/all-todos")
-    public List<ToDoModel> invokePaymentService() {
+    public List<ToDoModel> getAllToDos() {
         return userService.getAllToDosViaRestTemplate();
     }
 
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @GetMapping("/get-todos-by-user/{id}")
-    public List<Todo> getAllToDosByUser(@PathVariable Integer id) {
+    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 50) Integer id) {
         return userService.getAllToDosByUser(id);
     }
 

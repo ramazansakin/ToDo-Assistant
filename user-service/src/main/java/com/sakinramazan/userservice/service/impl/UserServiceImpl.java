@@ -45,22 +45,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateOne(User user) {
-        if (user != null && user.getId() != null) {
-            User one = getOne(user.getId());
-            if (one != null)
-                return userRepository.save(one);
-        }
+        User one = getOne(user.getId());
+        if (one != null)
+            return userRepository.save(one);
+
         return null;
     }
 
     @Override
     public boolean deleteOne(Integer id) {
-        if (id != null) {
-            User one = getOne(id);
-            if (one != null) {
-                userRepository.save(one);
-                return true;
-            }
+        User one = getOne(id);
+        if (one != null) {
+            userRepository.save(one);
+            return true;
         }
         return false;
     }
@@ -96,8 +93,7 @@ public class UserServiceImpl implements UserService {
     private HttpEntity<String> getHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return entity;
+        return new HttpEntity<>("parameters", headers);
     }
 
 }
