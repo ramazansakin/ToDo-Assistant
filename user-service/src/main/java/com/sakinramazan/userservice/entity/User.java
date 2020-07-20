@@ -1,5 +1,6 @@
 package com.sakinramazan.userservice.entity;
 
+import com.sakinramazan.userservice.annotation.ValidPassword;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,12 +34,14 @@ public class User implements Serializable {
     private String email;
 
     @NotNull(message = "{validation.messages.users.password}")
+    @ValidPassword
     private String password;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
+    // Not need to persist todos
     @Transient
     private List<Todo> todos;
 
