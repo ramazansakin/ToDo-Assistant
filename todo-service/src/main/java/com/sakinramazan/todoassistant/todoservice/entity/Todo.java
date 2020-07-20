@@ -25,10 +25,7 @@ public class Todo implements Serializable {
 
     private String details;
 
-    @NotNull(message = "airport can not be null")
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "user_id")
+    private Integer userId;
 
 }

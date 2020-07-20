@@ -38,8 +38,7 @@ public class User implements Serializable {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    @Transient
     private List<Todo> todos;
 
 }
