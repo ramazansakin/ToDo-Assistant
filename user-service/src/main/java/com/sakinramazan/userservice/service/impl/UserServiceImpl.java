@@ -3,6 +3,7 @@ package com.sakinramazan.userservice.service.impl;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
+import com.sakinramazan.userservice.exception.UserNotFoundException;
 import com.sakinramazan.userservice.feign.client.ToDoServiceProxy;
 import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.repository.UserRepository;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getOne(Integer id) {
         Optional<User> byId = userRepository.findById(id);
-        return byId.orElse(null);
+        return byId.orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
@@ -45,21 +46,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateOne(User user) {
-        User one = getOne(user.getId());
-        if (one != null)
-            return userRepository.save(one);
-
-        return null;
+        // we nee dto check id or put another validation
+        // to prevent db null field exceptions
+        // we can customize the exception to handle on
+        // genericExpHandler specifically
+        if (user.getId() == null)
+            throw new RuntimeException("Id must not be null for update entity");
+        return userRepository.save(getOne(user.getId()));
     }
 
     @Override
     public boolean deleteOne(Integer id) {
         User one = getOne(id);
-        if (one != null) {
-            userRepository.save(one);
-            return true;
-        }
-        return false;
+        userRepository.delete(one);
+        return true;
     }
 
     @HystrixCommand(fallbackMethod = "getTodoByHeadline_Fallback")
