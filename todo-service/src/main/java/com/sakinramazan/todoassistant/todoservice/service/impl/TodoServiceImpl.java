@@ -1,6 +1,7 @@
 package com.sakinramazan.todoassistant.todoservice.service.impl;
 
 import com.sakinramazan.todoassistant.todoservice.entity.Todo;
+import com.sakinramazan.todoassistant.todoservice.exception.ToDoNotFoundException;
 import com.sakinramazan.todoassistant.todoservice.repository.TodoRepository;
 import com.sakinramazan.todoassistant.todoservice.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo getOne(Integer id) {
         Optional<Todo> byId = todoRepository.findById(id);
-        return byId.orElse(null);
+        return byId.orElseThrow(() -> new ToDoNotFoundException(id));
     }
 
     @Override
@@ -33,20 +34,15 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo updateOne(Todo todo) {
-        Todo one = getOne(todo.getId());
-        if (one != null)
-            return todoRepository.save(todo);
-        return null;
+        if (todo.getId() == null)
+            throw new RuntimeException("ToDo entity must include id field");
+        return todoRepository.save(getOne(todo.getId()));
     }
 
     @Override
     public boolean deleteOne(Integer id) {
-        Todo one = getOne(id);
-        if (one != null) {
-            todoRepository.delete(one);
-            return true;
-        }
-        return false;
+        todoRepository.delete(getOne(id));
+        return true;
     }
 
     @Override
