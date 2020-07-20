@@ -29,8 +29,13 @@ public class ZuulPostFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
-        log.info("PostFilter: " + String.format("response's content type is %s", response.getStatus()));
+        // Internal server errors handling
+        try {
+            HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
+            log.info("PostFilter: " + String.format("response's content type is %s", response.getStatus()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         return null;
     }

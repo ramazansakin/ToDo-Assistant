@@ -5,6 +5,7 @@ import org.passay.*;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.ValidationException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
-        return false;
+
+        throw new ValidationException(messageTemplate);
     }
 }
