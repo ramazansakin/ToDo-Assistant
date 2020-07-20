@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
@@ -22,12 +23,17 @@ public class User implements Serializable {
 
     private String lastname;
 
+    @NotNull(message = "{validation.messages.users.username}")
     private String username;
 
+    @NotNull(message = "{validation.messages.users.email}")
     private String email;
 
+    @NotNull(message = "{validation.messages.users.password}")
     private String password;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
 }
