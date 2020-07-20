@@ -8,12 +8,12 @@ import reactor.core.publisher.Mono;
 public class FallbackController {
 
     @RequestMapping("/userFallBack")
-    public Mono<String> orderServiceFallBack() {
+    public Mono<String> userServiceFallBack() {
         return Mono.just("User Service is taking too long to respond or down. Sorry, Please try again later");
     }
 
     @RequestMapping("/todoFallback")
-    public Mono<String> paymentServiceFallBack() {
+    public Mono<String> todoServiceFallBack() {
         return Mono.just("Order Service is taking too long to respond or down. Sorry, Please try again later");
     }
 }
