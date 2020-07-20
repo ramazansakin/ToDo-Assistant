@@ -22,13 +22,13 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler(JsonParseException.class)
     public ResponseEntity<Map> exception(JsonParseException exception) {
-        Map<String, String> valid_entity = prepareResponse(exception.getMessage(), "Please enter a valid json");
+        Map<String, String> valid_entity = prepareResponse(exception.getCause().getMessage(), "Please enter a valid json");
         return new ResponseEntity<>(valid_entity, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Map> exception(ValidationException exception) {
-        Map<String, String> valid_entity = prepareResponse(exception.getMessage(), "Please enter a valid entity");
+        Map<String, String> valid_entity = prepareResponse(exception.getCause().getMessage(), "Please enter a valid entity");
         return new ResponseEntity<>(valid_entity, HttpStatus.BAD_REQUEST);
     }
 
