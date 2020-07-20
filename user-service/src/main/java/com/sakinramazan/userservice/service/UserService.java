@@ -18,4 +18,6 @@ public interface UserService {
     boolean deleteOne(Integer id);
 
     Todo getTodoByHeadline(String headline);
+
+    List<Todo> getAllToDosByUser(Integer id);
 }

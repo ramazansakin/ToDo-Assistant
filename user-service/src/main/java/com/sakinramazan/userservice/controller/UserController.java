@@ -53,6 +53,8 @@ public class UserController {
     }
 
 
+    // RestTemplate api call usage sample
+    // TODO : edit and refactor api
     @GetMapping("/todos/{user_id}")
     public List<ToDoModel> invokePaymentService(@PathVariable Integer user_id) {
         final String uri = "http://todo-service/api/todos/all";
@@ -64,11 +66,6 @@ public class UserController {
         return result.getBody();
     }
 
-    @GetMapping("/feign-client/users")
-    public List<UserResponse> getAllUser() {
-        return client.getUsers();
-    }
-
     private HttpEntity<String> getHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -76,9 +73,21 @@ public class UserController {
         return entity;
     }
 
+
+    // Feign Client api call usage samples
+    @GetMapping("/feign-client/users")
+    public List<UserResponse> getAllUser() {
+        return client.getUsers();
+    }
+
     @GetMapping("/feign-client/todo-service/{headline}")
     public Todo getTodoByHeadline(@PathVariable String headline) {
         return userService.getTodoByHeadline(headline);
+    }
+
+    @GetMapping("/get-todos-by-user/{id}")
+    public List<Todo> getAllToDosByUser(@PathVariable Integer id) {
+        return userService.getAllToDosByUser(id);
     }
 
 }

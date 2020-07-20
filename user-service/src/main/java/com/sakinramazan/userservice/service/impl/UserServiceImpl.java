@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService {
         return todoService.getByHeadline(headline);
     }
 
+    @Override
+    public List<Todo> getAllToDosByUser(Integer id) {
+        return todoService.getAllToDosByUser(id);
+    }
+
     public Todo getTodoByHeadline_Fallback(String headline) {
         Todo defaultModel = new Todo();
         defaultModel.setHeadline("default Headline");
