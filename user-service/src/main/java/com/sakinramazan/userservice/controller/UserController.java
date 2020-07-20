@@ -7,12 +7,8 @@ import com.sakinramazan.userservice.feign.dto.UserResponse;
 import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -22,8 +18,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-    private final RestTemplate restTemplate;
 
     private final UserClient client;
 
@@ -57,22 +51,8 @@ public class UserController {
     // TODO : edit and refactor api
     @GetMapping("/all-todos")
     public List<ToDoModel> invokePaymentService() {
-        final String uri = "http://todo-service/api/todos/all";
-
-        ResponseEntity<List<ToDoModel>> result = restTemplate.exchange(uri, HttpMethod.GET, getHeader(),
-                new ParameterizedTypeReference<List<ToDoModel>>() {
-                }
-        );
-        return result.getBody();
+        return userService.getAllToDosViaRestTemplate();
     }
-
-    private HttpEntity<String> getHeader() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return entity;
-    }
-
 
     // Feign Client api call usage samples
     @GetMapping("/feign-client/users")

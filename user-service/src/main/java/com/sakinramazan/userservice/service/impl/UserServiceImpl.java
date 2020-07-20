@@ -4,11 +4,16 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
 import com.sakinramazan.userservice.feign.client.ToDoServiceProxy;
+import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.repository.UserRepository;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final ToDoServiceProxy todoService;
+
+    private final RestTemplate restTemplate;
 
     @Override
     public List<User> getAll() {
@@ -75,4 +82,22 @@ public class UserServiceImpl implements UserService {
         defaultModel.setDetails("Default Details");
         return defaultModel;
     }
+
+    public List<ToDoModel> getAllToDosViaRestTemplate() {
+        final String uri = "http://todo-service/api/todos/all";
+
+        ResponseEntity<List<ToDoModel>> result = restTemplate.exchange(uri, HttpMethod.GET, getHeader(),
+                new ParameterizedTypeReference<List<ToDoModel>>() {
+                }
+        );
+        return result.getBody();
+    }
+
+    private HttpEntity<String> getHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return entity;
+    }
+
 }
