@@ -39,7 +39,7 @@ public class User implements Serializable {
     private Address address;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "airportCompany", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Todo> todos;
 
 }
