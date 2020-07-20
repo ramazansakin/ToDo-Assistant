@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: user-service
+                fallbackuri: forward:/userFallBack
+        - id: todo-service
+          uri: lb://TODO-SERVICE
+          predicates:
+            - Path=/todo-service/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: todo-service
+                fallbackuri: forward:/todoFallback
+
+server:
+  port: 9090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
