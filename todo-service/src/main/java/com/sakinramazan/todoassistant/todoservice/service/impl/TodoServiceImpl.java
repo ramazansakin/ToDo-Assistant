@@ -5,6 +5,8 @@ import com.sakinramazan.todoassistant.todoservice.exception.ToDoNotFoundExceptio
 import com.sakinramazan.todoassistant.todoservice.repository.TodoRepository;
 import com.sakinramazan.todoassistant.todoservice.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
+    @Cacheable(value = "todos")
     @Override
     public List<Todo> getAll() {
         return todoRepository.findAll();
@@ -27,11 +30,13 @@ public class TodoServiceImpl implements TodoService {
         return byId.orElseThrow(() -> new ToDoNotFoundException(id));
     }
 
+    @CacheEvict(value = "todos", allEntries = true)
     @Override
     public void addOne(Todo todo) {
         todoRepository.save(todo);
     }
 
+    @CacheEvict(value = "todos", allEntries = true)
     @Override
     public Todo updateOne(Todo todo) {
         if (todo.getId() == null)
@@ -39,6 +44,7 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.save(getOne(todo.getId()));
     }
 
+    @CacheEvict(value = "todos", allEntries = true)
     @Override
     public boolean deleteOne(Integer id) {
         todoRepository.delete(getOne(id));

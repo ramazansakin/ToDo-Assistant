@@ -46,8 +46,8 @@ public class TodoController {
         return todoService.updateOne(todo);
     }
 
-    @DeleteMapping("/delete")
-    public boolean deleteTodo(@RequestParam @Range(min = 1, max = 200) Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteTodo(@PathVariable @Range(min = 1, max = 200) Integer id) {
         return todoService.deleteOne(id);
     }
 
@@ -57,7 +57,7 @@ public class TodoController {
     }
 
     @GetMapping("/get-todos-by-user/{id}")
-    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200)  Integer id) {
+    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200) Integer id) {
         return todoService.getAllToDosByUser(id);
     }
 }
