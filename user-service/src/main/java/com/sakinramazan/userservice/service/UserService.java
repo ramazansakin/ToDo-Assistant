@@ -23,4 +23,9 @@ public interface UserService {
     List<Todo> getAllToDosByUser(Integer id);
 
     List<ToDoModel> getAllToDosViaRestTemplate();
+
+    List<User> getUsersByAddress(Integer address_id);
+
+    List<User> getUsersByAddressCityName(String city);
+
 }

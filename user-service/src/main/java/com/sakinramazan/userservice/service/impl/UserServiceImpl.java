@@ -1,12 +1,14 @@
 package com.sakinramazan.userservice.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.sakinramazan.userservice.entity.Address;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
 import com.sakinramazan.userservice.exception.UserNotFoundException;
 import com.sakinramazan.userservice.feign.client.ToDoServiceProxy;
 import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.repository.UserRepository;
+import com.sakinramazan.userservice.service.AddressService;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -26,6 +28,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final AddressService addressService;
 
     private final ToDoServiceProxy todoService;
 
@@ -105,6 +109,17 @@ public class UserServiceImpl implements UserService {
                 }
         );
         return result.getBody();
+    }
+
+    @Override
+    public List<User> getUsersByAddress(Integer address_id) {
+        Address one = addressService.getOne(address_id);
+        return userRepository.getAllByAddress(one);
+    }
+
+    @Override
+    public List<User> getUsersByAddressCityName(String city) {
+        return userRepository.getAllByAddress_City(city);
     }
 
     private HttpEntity<String> getHeader() {

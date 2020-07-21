@@ -66,8 +66,18 @@ public class UserController {
     }
 
     @GetMapping("/get-todos-by-user/{id}")
-    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 50) Integer id) {
+    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200) Integer id) {
         return userService.getAllToDosByUser(id);
+    }
+
+    @GetMapping("/all/address")
+    public List<User> getAllUsersWithAddress(@RequestParam @Range(min = 1, max = 200) Integer id) {
+        return userService.getUsersByAddress(id);
+    }
+
+    @GetMapping("/all/address/{city_name}")
+    public List<User> getAllUsersWithAddress(@PathVariable String city_name) {
+        return userService.getUsersByAddressCityName(city_name);
     }
 
 }
