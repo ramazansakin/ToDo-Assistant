@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,38 +28,45 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping("/all")
-    public List<Todo> getAllTodos() {
+    public ResponseEntity<List<Todo>> getAllTodos() {
         log.info("All ToDo response via server port : " + port);
-        return todoService.getAll();
+        List<Todo> all = todoService.getAll();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Todo getTodo(@PathVariable @Range(min = 1, max = 200) Integer id) {
-        return todoService.getOne(id);
+    public ResponseEntity<Todo> getTodo(@PathVariable @Range(min = 1, max = 200) Integer id) {
+        Todo one = todoService.getOne(id);
+        return new ResponseEntity<>(one, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public Todo saveTodo(@RequestBody @Valid Todo todo) {
-        return todoService.addOne(todo);
+    public ResponseEntity<Todo> saveTodo(@RequestBody @Valid Todo todo) {
+        Todo todo1 = todoService.addOne(todo);
+        return new ResponseEntity<>(todo1, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Todo updateTodo(@RequestBody @Valid Todo todo) {
-        return todoService.updateOne(todo);
+    public ResponseEntity<Todo> updateTodo(@RequestBody @Valid Todo todo) {
+        Todo todo1 = todoService.updateOne(todo);
+        return new ResponseEntity<>(todo1, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean deleteTodo(@PathVariable @Range(min = 1, max = 200) Integer id) {
-        return todoService.deleteOne(id);
+    public ResponseEntity<Boolean> deleteTodo(@PathVariable @Range(min = 1, max = 200) Integer id) {
+        Boolean status = todoService.deleteOne(id);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
     @GetMapping("/get-todo/{headline}")
-    public Todo getByHeadline(@PathVariable String headline) {
-        return todoService.getByHeadline(headline);
+    public ResponseEntity<Todo> getByHeadline(@PathVariable String headline) {
+        Todo byHeadline = todoService.getByHeadline(headline);
+        return new ResponseEntity<>(byHeadline, HttpStatus.OK);
     }
 
     @GetMapping("/get-todos-by-user/{id}")
-    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200) Integer id) {
-        return todoService.getAllToDosByUser(id);
+    public ResponseEntity<List<Todo>> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200) Integer id) {
+        List<Todo> allToDosByUser = todoService.getAllToDosByUser(id);
+        return new ResponseEntity<>(allToDosByUser, HttpStatus.OK);
     }
 }
