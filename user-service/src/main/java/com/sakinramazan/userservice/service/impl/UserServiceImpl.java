@@ -59,7 +59,9 @@ public class UserServiceImpl implements UserService {
         // genericExpHandler specifically
         if (user.getId() == null)
             throw new RuntimeException("Id must not be null for update entity");
-        return userRepository.save(getOne(user.getId()));
+        // check whether there is a such user or not
+        getOne(user.getId());
+        return userRepository.save(user);
     }
 
     @CacheEvict(value = "users", allEntries = true)

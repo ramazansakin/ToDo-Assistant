@@ -41,7 +41,8 @@ public class TodoServiceImpl implements TodoService {
     public Todo updateOne(Todo todo) {
         if (todo.getId() == null)
             throw new RuntimeException("ToDo entity must include id field");
-        return todoRepository.save(getOne(todo.getId()));
+        getOne(todo.getId());
+        return todoRepository.save(todo);
     }
 
     @CacheEvict(value = "todos", allEntries = true)

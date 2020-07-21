@@ -41,7 +41,8 @@ public class AddressServiceImpl implements AddressService {
     public Address updateOne(Address address) {
         if (address.getId() == null)
             throw new RuntimeException("Id must not be null for update entity");
-        return addressRepository.save(getOne(address.getId()));
+        getOne(address.getId());
+        return addressRepository.save(address);
     }
 
     @CacheEvict(value = "addresses", allEntries = true)
