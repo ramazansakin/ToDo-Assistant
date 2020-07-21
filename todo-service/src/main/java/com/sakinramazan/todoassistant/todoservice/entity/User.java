@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -27,6 +28,7 @@ public class User implements Serializable {
     @NotNull(message = "{validation.messages.users.username}")
     private String username;
 
+    @Email
     @NotNull(message = "{validation.messages.users.email}")
     private String email;
 
