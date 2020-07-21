@@ -11,4 +11,6 @@ public interface TodoRepository extends JpaRepository<Todo, Integer> {
     Todo getByHeadline(String headline);
 
     List<Todo> getAllByUserId(Integer userId);
+
+    List<Todo> getAllByUserIdAndHeadline(Integer userId, String headline);
 }

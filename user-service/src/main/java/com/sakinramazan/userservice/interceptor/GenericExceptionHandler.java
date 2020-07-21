@@ -16,27 +16,35 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Map> exception(NotFoundException exception) {
-        Map<String, String> valid_entity = prepareResponse(exception.getMessage(), "Please enter a valid entity");
-        return new ResponseEntity<>(valid_entity, HttpStatus.BAD_REQUEST);
+        Map<String, String> response = prepareResponse(
+                exception.getMessage(),
+                "Please enter a valid entity");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(JsonParseException.class)
     public ResponseEntity<Map> exception(JsonParseException exception) {
-        Map<String, String> valid_entity = prepareResponse(exception.getCause().getMessage(), "Please enter a valid json");
-        return new ResponseEntity<>(valid_entity, HttpStatus.BAD_REQUEST);
+        Map<String, String> response = prepareResponse(
+                exception.getCause().getMessage(),
+                "Please ensure the entity has proper fields and values");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Map> exception(ValidationException exception) {
-        Map<String, String> valid_entity = prepareResponse(exception.getCause().getMessage(), "Please enter a valid entity");
-        return new ResponseEntity<>(valid_entity, HttpStatus.BAD_REQUEST);
+        Map<String, String> response = prepareResponse(
+                exception.getCause().getMessage(),
+                "Please enter a valid entity with proper constraints");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // If not found specific exception, use this
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> exception(Exception exception) {
-        Map<String, String> valid_entity = prepareResponse(exception.getMessage(), "Sorry for internal server error");
-        return new ResponseEntity<>(valid_entity, HttpStatus.INTERNAL_SERVER_ERROR);
+        Map<String, String> response = prepareResponse(
+                exception.getMessage(),
+                "Sorry for internal server error");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Map<String, String> prepareResponse(String error, String solution) {
