@@ -38,8 +38,8 @@ public class AddressController {
         return addressService.updateOne(address);
     }
 
-    @DeleteMapping("/delete")
-    public boolean delete(@RequestParam @Range(min = 1, max = 100) Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public boolean delete(@PathVariable @Range(min = 1, max = 100) Integer id) {
         return addressService.deleteOne(id);
     }
 }

@@ -5,6 +5,8 @@ import com.sakinramazan.userservice.exception.AddressNotFoundException;
 import com.sakinramazan.userservice.repository.AddressRepository;
 import com.sakinramazan.userservice.service.AddressService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
+    @Cacheable(value = "addresses")
     @Override
     public List<Address> getAll() {
         return addressRepository.findAll();
@@ -27,11 +30,13 @@ public class AddressServiceImpl implements AddressService {
         return byId.orElseThrow(() -> new AddressNotFoundException(id));
     }
 
+    @CacheEvict(value = "addresses", allEntries = true)
     @Override
     public Address addOne(Address address) {
         return addressRepository.save(address);
     }
 
+    @CacheEvict(value = "addresses", allEntries = true)
     @Override
     public Address updateOne(Address address) {
         if (address.getId() == null)
@@ -39,6 +44,7 @@ public class AddressServiceImpl implements AddressService {
         return addressRepository.save(getOne(address.getId()));
     }
 
+    @CacheEvict(value = "addresses", allEntries = true)
     @Override
     public boolean deleteOne(Integer id) {
         Address one = getOne(id);
