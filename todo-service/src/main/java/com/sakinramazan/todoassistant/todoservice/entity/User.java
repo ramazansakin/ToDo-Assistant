@@ -37,6 +37,7 @@ public class User implements Serializable {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
+    // Not need to persist todos
     @Transient
     private List<Todo> todos;
 

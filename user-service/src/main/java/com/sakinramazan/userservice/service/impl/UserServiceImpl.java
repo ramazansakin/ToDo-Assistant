@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
     private final RestTemplate restTemplate;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Cacheable(value = "users")
     @Override
     public List<User> getAll() {
@@ -46,6 +49,8 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(value = "users", allEntries = true)
     @Override
     public User addOne(User user) {
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
         return userRepository.save(user);
     }
 
@@ -83,6 +88,8 @@ public class UserServiceImpl implements UserService {
         return todoService.getAllToDosByUser(id);
     }
 
+    // If there is any problem, return a default entity
+    // or do something u want
     public Todo getTodoByHeadline_Fallback(String headline) {
         Todo defaultModel = new Todo();
         defaultModel.setHeadline("default Headline");
