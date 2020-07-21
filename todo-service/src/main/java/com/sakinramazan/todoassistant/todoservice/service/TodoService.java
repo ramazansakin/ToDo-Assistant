@@ -11,7 +11,7 @@ public interface TodoService {
 
     Todo getOne(Integer id);
 
-    void addOne(@RequestBody Todo todo);
+    Todo addOne(@RequestBody Todo todo);
 
     Todo updateOne(@RequestBody Todo todo);
 

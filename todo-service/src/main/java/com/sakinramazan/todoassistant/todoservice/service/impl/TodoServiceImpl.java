@@ -32,8 +32,8 @@ public class TodoServiceImpl implements TodoService {
 
     @CacheEvict(value = "todos", allEntries = true)
     @Override
-    public void addOne(Todo todo) {
-        todoRepository.save(todo);
+    public Todo addOne(Todo todo) {
+        return todoRepository.save(todo);
     }
 
     @CacheEvict(value = "todos", allEntries = true)
