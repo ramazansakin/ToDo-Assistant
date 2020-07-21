@@ -25,12 +25,19 @@ CREATE TABLE users(
 -- Sample test data insertions
 INSERT INTO address ( city, street, building_no, door_no) VALUES    ( 'Malatya', 'Ayvalık Sokagı', 3, 5 ),
                                                                     ( 'Afyon', 'Uluköy Sokagı', 45, 15 ),
+                                                                    ( 'Afyon', 'Tepe Sokagı', 5, 15 ),
                                                                     ( 'Istanbul', 'Senlik Sokagı', 32, 55 ),
                                                                     ( 'Kocaeli', 'Pekcan Sokagı', 67, 12 ),
                                                                     ( 'Urfa', 'Gelgel Sokagı', 4, 56 );
 
 
-INSERT INTO users (name, lastname, username, password, address_id, email) VALUES    ( 'Admin', 'Test', 'adminuser', 'test', 1  , 'admin@mail.com' ),
-                                                                                    ( 'Selim', 'Canlı', 'adminuser', 'test', 2  , null ),
-                                                                                    ( 'Ahmet', 'Kaya', 'adminuser', 'test', 5  , 'ahmet@mail.com' ),
-                                                                                    ( 'Rıdvan', 'Peknaz', 'adminuser', 'test', 4 , 'ridvan@mail.com' );
+INSERT INTO users (name, lastname, username, password, address_id, email) VALUES    ( 'Admin', 'Test', 'adminuser', 'samplE_12345', 1  , 'admin@mail.com' ),
+                                                                                    ( 'Selim', 'Canlı', 'basic', 'samplE_12345', 2  , null ),
+                                                                                    ( 'Mehmet', 'Kaya', 'basic', 'samplE_12345', 5  , 'ahmet@mail.com' ),
+                                                                                    ( 'Erdem', 'Canlı', 'basic', 'samplE_12345', 3  , null ),
+                                                                                    ( 'Cengiz', 'Arf', 'basic', 'samplE_12345', 5  , 'ahmet@mail.com' ),
+                                                                                    ( 'Ferhat', 'Tapas', 'basic', 'samplE_12345', 2  , null ),
+                                                                                    ( 'Selim', 'Asaf', 'basic', 'samplE_12345', 5  , 'ahmet@mail.com' ),
+                                                                                    ( 'Hekim', 'Gandas', 'basic', 'samplE_12345', 2  , null ),
+                                                                                    ( 'Tekin', 'Karlı', 'basic', 'samplE_12345', 3  , 'ahmet@mail.com' ),
+                                                                                    ( 'Kamil', 'Peksimet', 'basic', 'samplE_12345', 4 , 'ridvan@mail.com' );
