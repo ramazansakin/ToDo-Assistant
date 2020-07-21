@@ -1,6 +1,7 @@
 package com.sakinramazan.todoassistant.todoservice.interceptor;
 
 import com.sakinramazan.todoassistant.todoservice.exception.InvalidFieldException;
+import com.sakinramazan.todoassistant.todoservice.exception.NotAllowedApiException;
 import com.sakinramazan.todoassistant.todoservice.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,13 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler(InvalidFieldException.class)
     public ResponseEntity<Map> exception(InvalidFieldException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("Caused by", exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotAllowedApiException.class)
+    public ResponseEntity<Map> exception(NotAllowedApiException exception) {
         Map<String, String> response = new HashMap<>();
         response.put("Caused by", exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

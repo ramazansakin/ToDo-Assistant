@@ -1,6 +1,6 @@
 package com.sakinramazan.todoassistant.todoservice.config;
 
-import com.sakinramazan.todoassistant.todoservice.interceptor.ResponseEntityInterceptor;
+import com.sakinramazan.todoassistant.todoservice.interceptor.RequestEntityCheckInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Component
 public class InterceptorsConfig implements WebMvcConfigurer {
 
-    private final ResponseEntityInterceptor responseEntityInterceptor;
+    private final RequestEntityCheckInterceptor responseEntityInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

@@ -1,5 +1,6 @@
 package com.sakinramazan.todoassistant.todoservice.interceptor;
 
+import com.sakinramazan.todoassistant.todoservice.exception.NotAllowedApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,10 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Slf4j
-public class ResponseEntityInterceptor implements HandlerInterceptor {
+public class RequestEntityCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("Todo Controller preHandle");
+        // we can intercept any url here
+        // logging, blocking, dispatching ...
+        if (request.getRequestURI().contains("/create"))
+            throw new NotAllowedApiException(request.getRequestURL().toString());
         return true;
     }
 
