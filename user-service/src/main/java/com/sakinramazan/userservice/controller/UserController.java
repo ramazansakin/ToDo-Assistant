@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable @Range(min = 1, max = 50) Integer id) {
+    public User get(@PathVariable @Range(min = 1, max = 100) Integer id) {
         return userService.getOne(id);
     }
 
@@ -43,8 +43,8 @@ public class UserController {
         return userService.updateOne(user);
     }
 
-    @DeleteMapping("/delete")
-    public boolean delete(@RequestParam @Range(min = 1, max = 50) Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public boolean delete(@PathVariable @Range(min = 1, max = 200) Integer id) {
         return userService.deleteOne(id);
     }
 

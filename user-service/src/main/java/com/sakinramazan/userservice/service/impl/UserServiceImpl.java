@@ -9,6 +9,8 @@ import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.repository.UserRepository;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     private final RestTemplate restTemplate;
 
+    @Cacheable(value = "users")
     @Override
     public List<User> getAll() {
         return userRepository.findAll();
@@ -39,14 +42,18 @@ public class UserServiceImpl implements UserService {
         return byId.orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    //  @CachePut(value = "users", key = "#result.id", unless = "#result == null")
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User addOne(User user) {
         return userRepository.save(user);
     }
 
+    //  @CachePut(value = "users", key = "#result.id", unless = "#result == null")
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User updateOne(User user) {
-        // we nee dto check id or put another validation
+        // we need to check dto id or put another validation
         // to prevent db null field exceptions
         // we can customize the exception to handle on
         // genericExpHandler specifically
@@ -55,6 +62,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(getOne(user.getId()));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public boolean deleteOne(Integer id) {
         User one = getOne(id);
