@@ -17,7 +17,7 @@ CREATE TABLE users(
     lastname VARCHAR(20),
     username VARCHAR(20) NOT NULL,
     email VARCHAR(20),
-    password varchar(15) NOT NULL,
+    password varchar(100) NOT NULL,
     address_id INT,
     FOREIGN KEY (address_id) REFERENCES address(id)
 );
