@@ -4,6 +4,8 @@ import com.sakinramazan.userservice.entity.Address;
 import com.sakinramazan.userservice.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,30 +18,36 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/api/address")
 public class AddressController {
+
     private final AddressService addressService;
 
     @GetMapping("/all")
-    public List<Address> getAll() {
-        return addressService.getAll();
+    public ResponseEntity<List<Address>> getAll() {
+        List<Address> all = addressService.getAll();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Address get(@PathVariable @Range(min = 1, max = 100) Integer id) {
-        return addressService.getOne(id);
+    public ResponseEntity<Address> get(@PathVariable @Range(min = 1, max = 100) Integer id) {
+        Address one = addressService.getOne(id);
+        return new ResponseEntity<>(one, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public Address save(@RequestBody @Valid Address address) {
-        return addressService.addOne(address);
+    public ResponseEntity<Address> save(@RequestBody @Valid Address address) {
+        Address actual = addressService.addOne(address);
+        return new ResponseEntity<>(actual, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public Address update(@RequestBody @Valid Address address) {
-        return addressService.updateOne(address);
+    public ResponseEntity<Address> update(@RequestBody @Valid Address address) {
+        Address actual = addressService.updateOne(address);
+        return new ResponseEntity<>(actual, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable @Range(min = 1, max = 100) Integer id) {
-        return addressService.deleteOne(id);
+    public ResponseEntity<Boolean> delete(@PathVariable @Range(min = 1, max = 100) Integer id) {
+        Boolean status = addressService.deleteOne(id);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 }
