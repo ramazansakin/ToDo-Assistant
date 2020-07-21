@@ -8,6 +8,8 @@ import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,60 +26,71 @@ public class UserController {
     private final UserClient client;
 
     @GetMapping("/all")
-    public List<User> getAll() {
-        return userService.getAll();
+    public ResponseEntity<List<User>> getAll() {
+        List<User> all = userService.getAll();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable @Range(min = 1, max = 100) Integer id) {
-        return userService.getOne(id);
+    public ResponseEntity<User> get(@PathVariable @Range(min = 1, max = 100) Integer id) {
+        User one = userService.getOne(id);
+        return new ResponseEntity<>(one, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public User save(@RequestBody @Valid User user) {
-        return userService.addOne(user);
+    public ResponseEntity<User> save(@RequestBody @Valid User user) {
+        User actual = userService.addOne(user);
+        return new ResponseEntity<>(actual, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public User update(@RequestBody @Valid User user) {
-        return userService.updateOne(user);
+    public ResponseEntity<User> update(@RequestBody @Valid User user) {
+        User actual = userService.updateOne(user);
+        return new ResponseEntity<>(actual, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable @Range(min = 1, max = 200) Integer id) {
-        return userService.deleteOne(id);
+    public ResponseEntity<Boolean> delete(@PathVariable @Range(min = 1, max = 200) Integer id) {
+        Boolean status = userService.deleteOne(id);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
     // RestTemplate api call usage sample
     @GetMapping("/all-todos")
-    public List<ToDoModel> getAllToDos() {
-        return userService.getAllToDosViaRestTemplate();
+    public ResponseEntity<List<ToDoModel>> getAllToDos() {
+        List<ToDoModel> allToDosViaRestTemplate = userService.getAllToDosViaRestTemplate();
+        return new ResponseEntity<>(allToDosViaRestTemplate, HttpStatus.OK);
     }
 
     // Feign Client api call usage samples
     @GetMapping("/feign-client/users")
-    public List<UserResponse> getAllUser() {
-        return client.getUsers();
+    public ResponseEntity<List<UserResponse>> getAllUser() {
+        List<UserResponse> users = client.getUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/feign-client/todo-service/{headline}")
-    public Todo getTodoByHeadline(@PathVariable String headline) {
-        return userService.getTodoByHeadline(headline);
+    public ResponseEntity<Todo> getTodoByHeadline(@PathVariable String headline) {
+        Todo todoByHeadline = userService.getTodoByHeadline(headline);
+        return new ResponseEntity<>(todoByHeadline, HttpStatus.OK);
     }
 
     @GetMapping("/get-todos-by-user/{id}")
-    public List<Todo> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200) Integer id) {
-        return userService.getAllToDosByUser(id);
+    public ResponseEntity<List<Todo>> getAllToDosByUser(@PathVariable @Range(min = 1, max = 200) Integer id) {
+        List<Todo> allToDosByUser = userService.getAllToDosByUser(id);
+        return new ResponseEntity<>(allToDosByUser, HttpStatus.OK);
     }
 
     @GetMapping("/all/address")
-    public List<User> getAllUsersWithAddress(@RequestParam @Range(min = 1, max = 200) Integer id) {
-        return userService.getUsersByAddress(id);
+    public ResponseEntity<List<User>> getAllUsersWithAddress(@RequestParam @Range(min = 1, max = 200) Integer id) {
+        List<User> usersByAddress = userService.getUsersByAddress(id);
+        return new ResponseEntity<>(usersByAddress, HttpStatus.OK);
     }
 
     @GetMapping("/all/address/{city_name}")
-    public List<User> getAllUsersWithAddress(@PathVariable String city_name) {
-        return userService.getUsersByAddressCityName(city_name);
+    public ResponseEntity<List<User>> getAllUsersWithAddress(@PathVariable String city_name) {
+        List<User> usersByAddressCityName = userService.getUsersByAddressCityName(city_name);
+        return new ResponseEntity<>(usersByAddressCityName, HttpStatus.OK);
     }
 
 }
