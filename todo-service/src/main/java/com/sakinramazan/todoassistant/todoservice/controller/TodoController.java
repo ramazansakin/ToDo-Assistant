@@ -37,8 +37,8 @@ public class TodoController {
     }
 
     @PostMapping("/create")
-    public void saveTodo(@RequestBody @Valid Todo todo) {
-        todoService.addOne(todo);
+    public Todo saveTodo(@RequestBody @Valid Todo todo) {
+        return todoService.addOne(todo);
     }
 
     @PutMapping("/update")

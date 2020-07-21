@@ -24,7 +24,7 @@ public class ResponseEntityInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
-        // you can log anything here
+        // you can log anything here after api completion
         // log.info("Airport Controller afterCompletion");
     }
 }
