@@ -1,6 +1,7 @@
 package com.sakinramazan.userservice.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.sakinramazan.userservice.dto.UserDTO;
 import com.sakinramazan.userservice.entity.Address;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
@@ -11,6 +12,7 @@ import com.sakinramazan.userservice.repository.UserRepository;
 import com.sakinramazan.userservice.service.AddressService;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -19,9 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,31 +38,38 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final ModelMapper modelMapper;
+
     @Cacheable(value = "users")
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserDTO> getAll() {
+        List<User> all = userRepository.findAll();
+        return all.stream().
+                map(user -> modelMapper.map(user, UserDTO.class)).
+                collect(Collectors.toList());
     }
 
     @Override
-    public User getOne(Integer id) {
+    public UserDTO getOne(Integer id) {
         Optional<User> byId = userRepository.findById(id);
-        return byId.orElseThrow(() -> new UserNotFoundException(id));
+        User user = byId.orElseThrow(() -> new UserNotFoundException(id));
+        return modelMapper.map(user, UserDTO.class);
     }
 
     //  @CachePut(value = "users", key = "#result.id", unless = "#result == null")
     @CacheEvict(value = "users", allEntries = true)
     @Override
-    public User addOne(User user) {
+    public UserDTO addOne(User user) {
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
-        return userRepository.save(user);
+        User save = userRepository.save(user);
+        return modelMapper.map(save, UserDTO.class);
     }
 
     //  @CachePut(value = "users", key = "#result.id", unless = "#result == null")
     @CacheEvict(value = "users", allEntries = true)
     @Override
-    public User updateOne(User user) {
+    public UserDTO updateOne(User user) {
         // we need to check dto id or put another validation
         // to prevent db null field exceptions
         // we can customize the exception to handle on
@@ -70,15 +78,20 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Id must not be null for update entity");
         // check whether there is a such user or not
         getOne(user.getId());
-        return userRepository.save(user);
+        User save = userRepository.save(user);
+        return modelMapper.map(save, UserDTO.class);
     }
 
     @CacheEvict(value = "users", allEntries = true)
     @Override
-    public boolean deleteOne(Integer id) {
-        User one = getOne(id);
-        userRepository.delete(one);
-        return true;
+    public Map<String, String> deleteOne(Integer id) {
+        // check whether there is a such user or not
+        Optional<User> byId = userRepository.findById(id);
+        User user = byId.orElseThrow(() -> new UserNotFoundException(id));
+        userRepository.delete(user);
+        Map<String, String> response = new HashMap<>();
+        response.put("Deleted", Boolean.TRUE.toString());
+        return response;
     }
 
     @HystrixCommand(fallbackMethod = "getTodoByHeadline_Fallback")
@@ -112,14 +125,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsersByAddress(Integer address_id) {
+    public List<UserDTO> getUsersByAddress(Integer address_id) {
         Address one = addressService.getOne(address_id);
-        return userRepository.getAllByAddress(one);
+        List<User> allByAddress = userRepository.getAllByAddress(one);
+        return allByAddress.stream().
+                map(user -> modelMapper.map(user, UserDTO.class)).
+                collect(Collectors.toList());
     }
 
     @Override
-    public List<User> getUsersByAddressCityName(String city) {
-        return userRepository.getAllByAddress_City(city);
+    public List<UserDTO> getUsersByAddressCityName(String city) {
+        List<User> allByAddress_city = userRepository.getAllByAddress_City(city);
+        return allByAddress_city.stream().
+                map(user -> modelMapper.map(user, UserDTO.class)).
+                collect(Collectors.toList());
     }
 
     private HttpEntity<String> getHeader() {

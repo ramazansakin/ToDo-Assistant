@@ -1,22 +1,24 @@
 package com.sakinramazan.userservice.service;
 
+import com.sakinramazan.userservice.dto.UserDTO;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
 import com.sakinramazan.userservice.model.ToDoModel;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
-    List<User> getAll();
+    List<UserDTO> getAll();
 
-    User getOne(Integer id);
+    UserDTO getOne(Integer id);
 
-    User addOne(@RequestBody User address);
+    UserDTO addOne(@RequestBody User address);
 
-    User updateOne(@RequestBody User address);
+    UserDTO updateOne(@RequestBody User address);
 
-    boolean deleteOne(Integer id);
+    Map<String, String> deleteOne(Integer id);
 
     Todo getTodoByHeadline(String headline);
 
@@ -24,8 +26,8 @@ public interface UserService {
 
     List<ToDoModel> getAllToDosViaRestTemplate();
 
-    List<User> getUsersByAddress(Integer address_id);
+    List<UserDTO> getUsersByAddress(Integer address_id);
 
-    List<User> getUsersByAddressCityName(String city);
+    List<UserDTO> getUsersByAddressCityName(String city);
 
 }

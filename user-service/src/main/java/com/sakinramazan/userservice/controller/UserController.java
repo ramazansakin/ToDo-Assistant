@@ -1,5 +1,6 @@
 package com.sakinramazan.userservice.controller;
 
+import com.sakinramazan.userservice.dto.UserDTO;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
 import com.sakinramazan.userservice.feign.client.UserClient;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,33 +28,33 @@ public class UserController {
     private final UserClient client;
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAll() {
-        List<User> all = userService.getAll();
+    public ResponseEntity<List<UserDTO>> getAll() {
+        List<UserDTO> all = userService.getAll();
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable @Range(min = 1, max = 100) Integer id) {
-        User one = userService.getOne(id);
+    public ResponseEntity<UserDTO> get(@PathVariable @Range(min = 1, max = 100) Integer id) {
+        UserDTO one = userService.getOne(id);
         return new ResponseEntity<>(one, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> save(@RequestBody @Valid User user) {
-        User actual = userService.addOne(user);
+    public ResponseEntity<UserDTO> save(@RequestBody @Valid User user) {
+        UserDTO actual = userService.addOne(user);
         return new ResponseEntity<>(actual, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> update(@RequestBody @Valid User user) {
-        User actual = userService.updateOne(user);
+    public ResponseEntity<UserDTO> update(@RequestBody @Valid User user) {
+        UserDTO actual = userService.updateOne(user);
         return new ResponseEntity<>(actual, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable @Range(min = 1, max = 200) Integer id) {
-        Boolean status = userService.deleteOne(id);
-        return new ResponseEntity<>(status, HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable @Range(min = 1, max = 200) Integer id) {
+        Map<String, String> stringStringMap = userService.deleteOne(id);
+        return new ResponseEntity<>(stringStringMap, HttpStatus.OK);
     }
 
     // RestTemplate api call usage sample
@@ -82,14 +84,14 @@ public class UserController {
     }
 
     @GetMapping("/all/address")
-    public ResponseEntity<List<User>> getAllUsersWithAddress(@RequestParam @Range(min = 1, max = 200) Integer id) {
-        List<User> usersByAddress = userService.getUsersByAddress(id);
+    public ResponseEntity<List<UserDTO>> getAllUsersWithAddress(@RequestParam @Range(min = 1, max = 200) Integer id) {
+        List<UserDTO> usersByAddress = userService.getUsersByAddress(id);
         return new ResponseEntity<>(usersByAddress, HttpStatus.OK);
     }
 
     @GetMapping("/all/address/{city_name}")
-    public ResponseEntity<List<User>> getAllUsersWithAddress(@PathVariable String city_name) {
-        List<User> usersByAddressCityName = userService.getUsersByAddressCityName(city_name);
+    public ResponseEntity<List<UserDTO>> getAllUsersWithAddress(@PathVariable String city_name) {
+        List<UserDTO> usersByAddressCityName = userService.getUsersByAddressCityName(city_name);
         return new ResponseEntity<>(usersByAddressCityName, HttpStatus.OK);
     }
 
