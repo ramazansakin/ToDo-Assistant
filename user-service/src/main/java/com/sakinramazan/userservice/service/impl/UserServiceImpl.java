@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     // If there is any problem, return a default entity
     // or do something u want
-    public Todo getTodoByHeadline_Fallback(String headline) {
+    private Todo getTodoByHeadline_Fallback(String headline) {
         Todo defaultModel = new Todo();
         defaultModel.setHeadline("default Headline");
         defaultModel.setDetails("Default Details");

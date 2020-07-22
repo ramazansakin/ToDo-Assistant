@@ -1,5 +1,7 @@
 package com.sakinramazan.userservice.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.sakinramazan.userservice.dto.UserDTO;
 import com.sakinramazan.userservice.entity.Todo;
 import com.sakinramazan.userservice.entity.User;
@@ -64,11 +66,24 @@ public class UserController {
         return new ResponseEntity<>(allToDosViaRestTemplate, HttpStatus.OK);
     }
 
-    // Feign Client api call usage samples
+    // Feign Client api call usage samples and hystrix for fail response
+    @HystrixCommand(fallbackMethod = "fallback_getAllUserViaFeign", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    })
     @GetMapping("/feign-client/users")
-    public ResponseEntity<List<UserResponse>> getAllUser() {
+    public ResponseEntity<List<UserResponse>> getAllUserViaFeign() {
         List<UserResponse> users = client.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    private ResponseEntity<List<UserResponse>> fallback_getAllUserViaFeign() {
+        // You can create a default response here
+        // OR
+        // throw an exception
+        // OR
+        // dispatch anywhere u want
+        // Etc.
+        return new ResponseEntity<>(null, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @GetMapping("/feign-client/todo-service/{headline}")
