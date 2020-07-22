@@ -17,7 +17,8 @@ public class RequestEntityCheckInterceptor implements HandlerInterceptor {
         log.info("Todo Controller preHandle");
         // we can intercept any url here
         // logging, blocking, dispatching ...
-        if (request.getRequestURI().contains("/create"))
+        // I wanna block updating todos
+        if (request.getRequestURI().contains("/update"))
             throw new NotAllowedApiException(request.getRequestURL().toString());
         return true;
     }
