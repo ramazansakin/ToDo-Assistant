@@ -21,6 +21,7 @@ public class EmailController {
 
     private final JavaMailSender javaMailSender;
 
+    // You can refactor here to get all logic to EmailService for best practise :)
     @PostMapping("/send-email")
     public void sendEmail(@RequestBody @Valid EmailSentRequest request) {
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -32,7 +33,7 @@ public class EmailController {
     }
 
     @PostMapping("/send-email-with-attachment")
-    void sendEmailWithAttachment(@RequestBody @Valid EmailSentWithAttachmentRequest request) throws MessagingException {
+    public void sendEmailWithAttachment(@RequestBody @Valid EmailSentWithAttachmentRequest request) throws MessagingException {
         MimeMessage msg = javaMailSender.createMimeMessage();
         // true = multipart message
         MimeMessageHelper helper = new MimeMessageHelper(msg, true);
@@ -43,6 +44,8 @@ public class EmailController {
 
         // hard coded a file path
         //FileSystemResource file = new FileSystemResource(new File("path/android.png"));
+        if (request.getAttachmentName() == null)
+            request.setAttachmentName("default_attachment_name_here");
         helper.addAttachment(request.getAttachmentName(), new ClassPathResource(request.getAttachmentPath()));
 
         javaMailSender.send(msg);
