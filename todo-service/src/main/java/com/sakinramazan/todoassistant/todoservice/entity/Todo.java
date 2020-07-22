@@ -35,4 +35,8 @@ public class Todo implements Serializable {
     @Range(min = 1, max = 200)
     private Integer userId;
 
+    public Todo(String headline, String details) {
+        this.headline = headline;
+        this.details = details;
+    }
 }
