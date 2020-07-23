@@ -40,13 +40,13 @@ public class TodoController {
         return new ResponseEntity<>(one, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/new-todo")
     public ResponseEntity<Todo> saveTodo(@RequestBody @Valid Todo todo) {
         Todo todo1 = todoService.addOne(todo);
         return new ResponseEntity<>(todo1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update-todo")
     public ResponseEntity<Todo> updateTodo(@RequestBody @Valid Todo todo) {
         Todo todo1 = todoService.updateOne(todo);
         return new ResponseEntity<>(todo1, HttpStatus.OK);
