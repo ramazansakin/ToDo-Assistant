@@ -2,6 +2,7 @@ package com.sakinramazan.userservice.controller;
 
 import com.sakinramazan.userservice.entity.Address;
 import com.sakinramazan.userservice.service.AddressService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/address")
+@Api(value = "AddressController")
 public class AddressController {
 
     private final AddressService addressService;

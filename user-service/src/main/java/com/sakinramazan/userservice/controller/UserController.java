@@ -9,6 +9,7 @@ import com.sakinramazan.userservice.feign.client.UserClient;
 import com.sakinramazan.userservice.feign.dto.UserResponse;
 import com.sakinramazan.userservice.model.ToDoModel;
 import com.sakinramazan.userservice.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/user")
+@Api(value = "UserController")
 public class UserController {
 
     private final UserService userService;

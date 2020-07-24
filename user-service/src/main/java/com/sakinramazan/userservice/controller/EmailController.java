@@ -2,6 +2,7 @@ package com.sakinramazan.userservice.controller;
 
 import com.sakinramazan.userservice.model.EmailSentRequest;
 import com.sakinramazan.userservice.model.EmailSentWithAttachmentRequest;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/email")
+@Api(value = "EmailController")
 public class EmailController {
 
     private final JavaMailSender javaMailSender;
