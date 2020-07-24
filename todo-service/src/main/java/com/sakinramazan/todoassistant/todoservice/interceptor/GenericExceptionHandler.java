@@ -24,20 +24,14 @@ public class GenericExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InvalidFieldException.class)
+    @ExceptionHandler({
+            InvalidFieldException.class,
+            NotAllowedApiException.class
+    })
     public ResponseEntity<Map> exception(InvalidFieldException exception) {
         Map<String, String> response = prepareResponse(
                 exception.getMessage(),
                 "Please ensure the entity has proper fields and values",
-                HttpStatus.BAD_REQUEST.toString());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(NotAllowedApiException.class)
-    public ResponseEntity<Map> exception(NotAllowedApiException exception) {
-        Map<String, String> response = prepareResponse(
-                exception.getMessage(),
-                "Sorry for internal server error",
                 HttpStatus.BAD_REQUEST.toString());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
