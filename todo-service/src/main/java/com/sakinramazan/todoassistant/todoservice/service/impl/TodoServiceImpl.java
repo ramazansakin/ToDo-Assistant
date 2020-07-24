@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TodoServiceImpl implements     TodoService {
+public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
