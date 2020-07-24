@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserDTO.class);
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.getByEmail(email);
+    }
+
     //  @CachePut(value = "users", key = "#result.id", unless = "#result == null")
     @CacheEvict(value = "users", allEntries = true)
     @Override
