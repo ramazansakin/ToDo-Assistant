@@ -1,6 +1,7 @@
 package com.sakinramazan.todoassistant.gatewayservice.config;
 
 import com.sakinramazan.todoassistant.gatewayservice.filter.JwtRequestFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,17 +20,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Autowired
-    private UserDetailsService jwtUserDetailsService;
+    private final UserDetailsService jwtUserDetailsService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,9 +55,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers(
-                        "/authenticate", "/register",
-                                    "/user-service/v2/api-docs",
-                                    "/todo-service/v2/api-docs").permitAll()
+                "/authenticate", "/register",
+                "/user-service/v2/api-docs",
+                "/todo-service/v2/api-docs").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated()
                 .and()

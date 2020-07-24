@@ -3,7 +3,7 @@ package com.sakinramazan.todoassistant.gatewayservice.service;
 import com.sakinramazan.todoassistant.gatewayservice.model.DAOUser;
 import com.sakinramazan.todoassistant.gatewayservice.model.UserDTO;
 import com.sakinramazan.todoassistant.gatewayservice.repository.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,13 +14,12 @@ import java.util.ArrayList;
 
 
 @Service
+@RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
+    private final PasswordEncoder bcryptEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
