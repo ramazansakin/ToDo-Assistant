@@ -4,7 +4,7 @@ package com.sakinramazan.todoassistant.gatewayservice.filter;
 import com.sakinramazan.todoassistant.gatewayservice.service.JwtUserDetailsService;
 import com.sakinramazan.todoassistant.gatewayservice.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private JwtUserDetailsService jwtUserDetailsService;
 
-    private final JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

@@ -19,7 +19,8 @@ public class GenericExceptionHandler {
     @ExceptionHandler({
             UsernameNotFoundException.class,
             InvocationTargetException.class,
-            BadCredentialsException.class
+            BadCredentialsException.class,
+            UsernameNotFoundException.class
     })
     public ResponseEntity<Object> exception(Exception exception) {
         buildResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
