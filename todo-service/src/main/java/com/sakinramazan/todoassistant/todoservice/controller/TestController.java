@@ -1,5 +1,6 @@
 package com.sakinramazan.todoassistant.todoservice.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin("*")
 @RefreshScope
+@Api(value = "TestController")
 public class TestController {
 
     @GetMapping("{sample.url}")

@@ -2,6 +2,7 @@ package com.sakinramazan.todoassistant.todoservice.controller;
 
 import com.sakinramazan.todoassistant.todoservice.entity.Todo;
 import com.sakinramazan.todoassistant.todoservice.service.TodoService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping("/api/todos")
 @Slf4j
 @CrossOrigin("*")
+@Api(value = "TodoController")
 public class TodoController {
 
     @Value("${server.port}")
