@@ -14,7 +14,7 @@ public interface UserService {
 
     UserDTO getOne(Integer id);
 
-    User getUserByEmail(String email);
+    UserDTO getUserByEmail(String email);
 
     UserDTO addOne(@RequestBody User address);
 
