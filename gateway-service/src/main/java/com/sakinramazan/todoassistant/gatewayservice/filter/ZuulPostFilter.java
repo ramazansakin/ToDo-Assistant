@@ -2,15 +2,14 @@ package com.sakinramazan.todoassistant.gatewayservice.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.netflix.zuul.exception.ZuulException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.util.ReflectionUtils;
 
 @Component
+@Slf4j
 public class ZuulPostFilter extends ZuulFilter {
-    private static Logger log = LoggerFactory.getLogger(ZuulPostFilter.class);
 
     @Override
     public String filterType() {
@@ -19,24 +18,37 @@ public class ZuulPostFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return 1;
+        return -1; // Needs to run before SendErrorFilter which has filterOrder == 0
     }
 
     @Override
     public boolean shouldFilter() {
-        return false;
+        // only forward to errorPath if it hasn't been forwarded to already
+        return RequestContext.getCurrentContext().containsKey("error.status_code");
     }
 
     @Override
     public Object run() {
-        // We can handle some generic errors here
         try {
-            HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
-            log.info("PostFilter: " + String.format("response's content type is %s", response.getStatus()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            RequestContext ctx = RequestContext.getCurrentContext();
+            Object e = ctx.get("error.exception");
 
+            if (e != null && e instanceof ZuulException) {
+                ZuulException zuulException = (ZuulException) e;
+                log.error("Zuul failure detected: " + zuulException.getMessage(), zuulException);
+
+                // Remove error code to prevent further error handling in follow up filters
+                ctx.remove("error.status_code");
+
+                // Populate context with new response values
+                ctx.setResponseBody("Overriding Zuul Exception Body");
+                ctx.getResponse().setContentType("application/json");
+                ctx.setResponseStatusCode(500); //Can set any error code as excepted
+            }
+        } catch (Exception ex) {
+            log.error("Exception filtering in custom error filter", ex);
+            ReflectionUtils.rethrowRuntimeException(ex);
+        }
         return null;
     }
 }
