@@ -14,7 +14,7 @@ class GatewayFallbackProvider implements FallbackProvider {
 
     @Override
     public String getRoute() {
-        return "gateway-service";
+        return "*";
     }
 
     @Override
