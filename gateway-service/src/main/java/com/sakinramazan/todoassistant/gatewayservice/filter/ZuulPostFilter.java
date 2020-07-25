@@ -33,7 +33,7 @@ public class ZuulPostFilter extends ZuulFilter {
             RequestContext ctx = RequestContext.getCurrentContext();
             Object e = ctx.get("error.exception");
 
-            if (e != null && e instanceof ZuulException) {
+            if (e instanceof ZuulException) {
                 ZuulException zuulException = (ZuulException) e;
                 log.error("Zuul failure detected: " + zuulException.getMessage(), zuulException);
 

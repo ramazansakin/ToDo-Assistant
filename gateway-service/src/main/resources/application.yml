@@ -18,9 +18,9 @@ zuul:
     todo-service:
       path: /todo-service/**
       serviceId: todo-service
-  host:
-    connect-timeout-millis: 2000
-    socket-timeout-millis: 5000
+#  host:
+#    connect-timeout-millis: 2000
+#    socket-timeout-millis: 5000
 
 jwt:
   secret: my-secret-key

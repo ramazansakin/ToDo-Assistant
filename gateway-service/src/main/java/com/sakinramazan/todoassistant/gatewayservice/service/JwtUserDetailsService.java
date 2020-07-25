@@ -4,6 +4,7 @@ import com.sakinramazan.todoassistant.gatewayservice.model.DAOUser;
 import com.sakinramazan.todoassistant.gatewayservice.model.UserDTO;
 import com.sakinramazan.todoassistant.gatewayservice.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +27,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         DAOUser user = userDao.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new AuthenticationServiceException("Not authenticated  user [ " + username + " ]");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
