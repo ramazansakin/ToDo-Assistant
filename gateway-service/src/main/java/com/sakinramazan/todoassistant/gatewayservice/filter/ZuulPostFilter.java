@@ -18,7 +18,7 @@ public class ZuulPostFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return -1; // Needs to run before SendErrorFilter which has filterOrder == 0
+        return 1; // Needs to run before SendErrorFilter which has filterOrder == 0
     }
 
     @Override
