@@ -4,34 +4,23 @@ server:
 spring:
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: user-service
-                fallbackuri: forward:/userFallBack
-        - id: todo-service
-          uri: lb://TODO-SERVICE
-          predicates:
-            - Path=/todo-service/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: todo-service
-                fallbackuri: forward:/todoFallback
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    user-service:
+      path: /user-service/**
+      serviceId: user-service
+    todo-service:
+      path: /todo-service/**
+      serviceId: todo-service
 
 jwt:
   secret: my-secret-key
 
-# DataSource Configs
-# Actually we need to loot at user-service db but this is just sample via H2 db
-# and I just wanna to show how to use security on gateway with JWT
+  # DataSource Configs
+  # Actually we need to loot at user-service db but this is just sample via H2 db
+  # and I just wanna to show how to use security on gateway with JWT
   datasource:
     url: jdbc:h2:mem:user-db-db;DB_CLOSE_DELAY=-1;
     data-username: sa
