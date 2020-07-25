@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAll() {
         List<User> all = userRepository.findAll();
-        return all.stream().
-                map(user -> modelMapper.map(user, UserDTO.class)).
-                collect(Collectors.toList());
+        return all.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -134,17 +134,17 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getUsersByAddress(Integer address_id) {
         Address one = addressService.getOne(address_id);
         List<User> allByAddress = userRepository.getAllByAddress(one);
-        return allByAddress.stream().
-                map(user -> modelMapper.map(user, UserDTO.class)).
-                collect(Collectors.toList());
+        return allByAddress.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<UserDTO> getUsersByAddressCityName(String city) {
         List<User> allByAddress_city = userRepository.getAllByAddress_City(city);
-        return allByAddress_city.stream().
-                map(user -> modelMapper.map(user, UserDTO.class)).
-                collect(Collectors.toList());
+        return allByAddress_city.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     private HttpEntity<String> getHeader() {
