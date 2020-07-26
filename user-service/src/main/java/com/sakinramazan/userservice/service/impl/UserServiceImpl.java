@@ -13,6 +13,8 @@ import com.sakinramazan.userservice.service.AddressService;
 import com.sakinramazan.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -38,7 +40,13 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+    }
 
     @Cacheable(value = "users")
     @Override

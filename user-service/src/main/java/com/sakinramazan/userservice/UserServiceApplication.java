@@ -24,6 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableCircuitBreaker
 @EnableHystrix
 @EnableSwagger2
+@EnableCaching
 public class UserServiceApplication {
 
     public static void main(String[] args) {
