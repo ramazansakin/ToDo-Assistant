@@ -18,7 +18,6 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
-    @Cacheable(value = "todos")
     @Override
     public List<Todo> getAll() {
         return todoRepository.findAll();
@@ -30,13 +29,11 @@ public class TodoServiceImpl implements TodoService {
         return byId.orElseThrow(() -> new ToDoNotFoundException(id));
     }
 
-    @CacheEvict(value = "todos", allEntries = true)
     @Override
     public Todo addOne(Todo todo) {
         return todoRepository.save(todo);
     }
 
-    @CacheEvict(value = "todos", allEntries = true)
     @Override
     public Todo updateOne(Todo todo) {
         if (todo.getId() == null)
@@ -45,7 +42,6 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.save(todo);
     }
 
-    @CacheEvict(value = "todos", allEntries = true)
     @Override
     public boolean deleteOne(Integer id) {
         todoRepository.delete(getOne(id));
