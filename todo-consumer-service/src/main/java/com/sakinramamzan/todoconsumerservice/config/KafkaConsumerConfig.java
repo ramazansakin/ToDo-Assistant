@@ -1,6 +1,7 @@
 package com.sakinramamzan.todoconsumerservice.config;
 
 import com.sakinramamzan.todoconsumerservice.model.Todo;
+import com.sakinramamzan.todoconsumerservice.model.UserInfo;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,8 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // String consuming
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -37,7 +40,8 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-
+    // -----------------------------------------------------------------------------------------------------------------
+    // Todoo consuming
     @Bean
     public ConsumerFactory<String, Todo> todoConsumerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -64,4 +68,31 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // UserInfo consuming
+    @Bean
+    public ConsumerFactory<String, UserInfo> userConsumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_json");
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+
+        JsonDeserializer<UserInfo> userInfoJsonDeserializer = new JsonDeserializer<>(UserInfo.class, false);
+        userInfoJsonDeserializer.addTrustedPackages("*");
+
+        return new DefaultKafkaConsumerFactory<>(
+                config,
+                new StringDeserializer(),
+                userInfoJsonDeserializer
+        );
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, UserInfo> userKafkaListenerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, UserInfo> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(userConsumerFactory());
+        return factory;
+    }
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
+    // Kafka String message consumer bean
     @Bean
     public ProducerFactory<String, String> StringProducerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -27,12 +28,12 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(config);
     }
 
-
     @Bean
     public KafkaTemplate<String, String> kafkaStringTemplate() {
         return new KafkaTemplate<>(StringProducerFactory());
     }
 
+    // Kafka To-do object consumer bean
     @Bean
     public ProducerFactory<String, Object> TodoProducerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -43,7 +44,6 @@ public class KafkaProducerConfig {
 
         return new DefaultKafkaProducerFactory<>(config);
     }
-
 
     @Bean
     public KafkaTemplate<String, Object> kafkaTodoTemplate() {

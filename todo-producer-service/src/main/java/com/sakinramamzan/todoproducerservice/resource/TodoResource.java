@@ -3,6 +3,7 @@ package com.sakinramamzan.todoproducerservice.resource;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakinramamzan.todoproducerservice.model.Todo;
+import com.sakinramamzan.todoproducerservice.model.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class TodoResource {
 
     private static final String TOPIC_STRING = "Kafka_Sample_Topic";
     private static final String TOPIC_TODO = "Kafka_Todo_Topic";
+    private static final String TOPIC_USER = "Kafka_User_Topic";
 
     @GetMapping("/publish/{message}")
     public String publishMessage(@PathVariable final String message) {
@@ -44,6 +46,14 @@ public class TodoResource {
         kafkaTodoTemplate.send(TOPIC_TODO, todo);
 
         return "Todo published successfully : " + todo;
+    }
+
+    @PostMapping("/publish-user")
+    public String publishUserInfo(@RequestBody UserInfo userInfo) {
+        log.info("UserInfo Message : " + userInfo);
+        kafkaTodoTemplate.send(TOPIC_USER, userInfo);
+
+        return "UserInfo published successfully : " + userInfo;
     }
 
 }

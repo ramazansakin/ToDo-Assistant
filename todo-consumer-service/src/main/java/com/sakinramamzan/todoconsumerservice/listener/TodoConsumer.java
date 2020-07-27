@@ -3,6 +3,7 @@ package com.sakinramamzan.todoconsumerservice.listener;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakinramamzan.todoconsumerservice.model.Todo;
+import com.sakinramamzan.todoconsumerservice.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,8 @@ public class TodoConsumer {
         System.out.println("Consumed Todo : " + todo);
     }
 
+    @KafkaListener(topics = "Kafka_User_Topic", containerFactory = "todoKafkaListenerFactory", groupId = "group_json")
+    public void consumeJson(UserInfo userInfo) {
+        System.out.println("Consumed User : " + userInfo);
+    }
 }
