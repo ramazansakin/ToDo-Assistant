@@ -18,15 +18,14 @@ public class TodoConsumer {
         objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
     }
 
-    @KafkaListener(topics = "Kafka_Sample_Topic", containerFactory = "stringKafkaListenerFactory")
+    @KafkaListener(topics = "Kafka_Sample_Topic", containerFactory = "stringKafkaListenerFactory", groupId = "group_id")
     public void consume(String message) {
-        System.out.println("Consumed todo : " + message);
+        System.out.println("Consumed message : " + message);
     }
 
-
-    @KafkaListener(topics = "Kafka_Sample_Topic", containerFactory = "todoKafkaListenerFactory")
+    @KafkaListener(topics = "Kafka_Todo_Topic", containerFactory = "todoKafkaListenerFactory", groupId = "group_json")
     public void consumeJson(Todo todo) {
-        System.out.println("Consumed JSON Message: " + todo);
+        System.out.println("Consumed Todo : " + todo);
     }
 
 }
