@@ -1,7 +1,10 @@
 package com.sakinramamzan.todoproducerservice.resource;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakinramamzan.todoproducerservice.model.Todo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,19 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/consumer")
+@RequiredArgsConstructor
+@Slf4j
 public class TodoResource {
 
-    @Autowired
-    private KafkaTemplate<String, Todo> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    private static final String TOPIC = "Kafka_Topic_Name_Here";
+    private final ObjectMapper objectMapper;
+
+    private static final String TOPIC = "Kafka_Sample_Topic";
 
     @GetMapping("/publish/{message}")
-    public String publishMessage(@PathVariable final String message) {
+    public String publishMessage(@PathVariable final String message) throws JsonProcessingException {
+        Todo todo = new Todo(1, "Sample Headline", "Sample Details", 1);
+        String todoJsonStr = objectMapper.writeValueAsString(todo);
+        log.info("Message : " + todoJsonStr);
+        kafkaTemplate.send(TOPIC, todoJsonStr);
 
-        kafkaTemplate.send(TOPIC, new Todo(1, "Sample Headline", "Sample Details", 1));
-
-        return "Message published successfully!";
+        return "Message published successfully : " + todoJsonStr;
     }
 
 }
