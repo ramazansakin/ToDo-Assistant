@@ -17,7 +17,7 @@ public class TodoResource {
 
     private final KafkaTemplate<String, String> kafkaStringTemplate;
 
-    private final KafkaTemplate<String, Todo> kafkaTodoTemplate;
+    private final KafkaTemplate<String, Object> kafkaTodoTemplate;
 
     private ObjectMapper objectMapper;
 

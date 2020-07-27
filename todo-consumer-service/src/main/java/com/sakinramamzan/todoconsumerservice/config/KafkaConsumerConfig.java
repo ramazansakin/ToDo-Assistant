@@ -47,7 +47,7 @@ public class KafkaConsumerConfig {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
-        JsonDeserializer<Todo> todoJsonDeserializer = new JsonDeserializer<>(Todo.class);
+        JsonDeserializer<Todo> todoJsonDeserializer = new JsonDeserializer<>(Todo.class, false);
         todoJsonDeserializer.addTrustedPackages("*");
 
         return new DefaultKafkaConsumerFactory<>(

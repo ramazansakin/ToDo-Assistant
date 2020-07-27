@@ -34,7 +34,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, Todo> TodoProducerFactory() {
+    public ProducerFactory<String, Object> TodoProducerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -46,7 +46,7 @@ public class KafkaProducerConfig {
 
 
     @Bean
-    public KafkaTemplate<String, Todo> kafkaTodoTemplate() {
+    public KafkaTemplate<String, Object> kafkaTodoTemplate() {
         return new KafkaTemplate<>(TodoProducerFactory());
     }
 
