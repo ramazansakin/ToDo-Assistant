@@ -29,7 +29,7 @@ public class TodoConsumer {
         System.out.println("Consumed Todo : " + todo);
     }
 
-    @KafkaListener(topics = "Kafka_User_Topic", containerFactory = "todoKafkaListenerFactory", groupId = "group_json")
+    @KafkaListener(topics = "Kafka_User_Topic", containerFactory = "userKafkaListenerFactory", groupId = "group_json")
     public void consumeJson(UserInfo userInfo) {
         System.out.println("Consumed User : " + userInfo);
     }
