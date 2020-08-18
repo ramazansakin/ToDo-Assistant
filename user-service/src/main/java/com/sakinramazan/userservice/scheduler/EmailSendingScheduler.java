@@ -14,8 +14,8 @@ public class EmailSendingScheduler {
 
     private final EmailService emailService;
 
-    @Scheduled(cron = "0 0/3 * * * *")
-    public void vulnerabilityGroupCodeAssign() {
+    @Scheduled(cron = "0 0/1 * * * *")
+    public void emailSendBatch() {
 
         try {
             EmailSentRequest request = new EmailSentRequest();

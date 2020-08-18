@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -26,7 +25,7 @@ public class EmailController {
     }
 
     @PostMapping("/send-email-with-attachment")
-    public void sendEmailWithAttachment(@RequestBody @Valid EmailSentWithAttachmentRequest request){
+    public void sendEmailWithAttachment(@RequestBody @Valid EmailSentWithAttachmentRequest request) {
         emailService.sendEmailWithAttachment(request);
     }
 }

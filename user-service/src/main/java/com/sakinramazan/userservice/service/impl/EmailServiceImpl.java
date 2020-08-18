@@ -22,17 +22,20 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmail(EmailSentRequest request) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(request.getMailUser());
-        msg.setSubject(request.getEmailHeadline());
-        msg.setText(request.getMailDetails());
+        try {
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setTo(request.getMailUser());
+            msg.setSubject(request.getEmailHeadline());
+            msg.setText(request.getMailDetails());
 
-        javaMailSender.send(msg);
+            javaMailSender.send(msg);
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
     }
 
     @Override
     public void sendEmailWithAttachment(EmailSentWithAttachmentRequest request) {
-
         try {
             MimeMessage msg = javaMailSender.createMimeMessage();
             // true = multipart message
@@ -52,6 +55,5 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception ex) {
             log.error(ex.toString());
         }
-
     }
 }
