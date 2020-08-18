@@ -14,7 +14,7 @@ public class EmailSendingScheduler {
 
     private final EmailService emailService;
 
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "${cron.email.send.time}", zone = "GMT+8")
     public void emailSendBatch() {
 
         try {
